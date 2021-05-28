@@ -110,9 +110,13 @@ defmodule SpandexEcto.EctoLogger do
 
   defp setup(caller_pid, tracer) when is_pid(caller_pid) do
     if caller_pid == self() do
-      tracer.start_span("query")
+      if tracer.current_trace_id() do
+        tracer.start_span("query")
+      end
     else
-      case Process.info(caller_pid)[:dictionary][:spandex_trace] do
+      dictionary_map = Process.info(caller_pid)[:dictionary] |> Enum.into(%{})
+
+      case dictionary_map[{:spandex_trace, tracer}] do
         nil ->
           tracer.start_trace("query")
 
