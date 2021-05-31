@@ -101,10 +101,12 @@ defmodule SpandexEcto.EctoLogger do
   end
 
   defp finish_ecto_trace(caller_pid, tracer) do
-    if caller_pid != self() do
-      tracer.finish_trace()
-    else
-      tracer.finish_span()
+    if tracer.current_trace_id() do
+      if caller_pid != self() do
+        tracer.finish_trace()
+      else
+        tracer.finish_span()
+      end
     end
   end
 
