@@ -114,9 +114,9 @@ defmodule SpandexEcto.EctoLogger do
         tracer.start_span("query")
       end
     else
-      dictionary_map = Process.info(caller_pid)[:dictionary] |> Enum.into(%{})
+      {_, trace} = List.keyfind(Process.info(caller_pid)[:dictionary], {:spandex_trace, tracer}, 0)
 
-      case dictionary_map[{:spandex_trace, tracer}] do
+      case trace do
         nil ->
           tracer.start_span("query")
 
