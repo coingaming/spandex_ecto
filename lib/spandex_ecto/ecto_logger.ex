@@ -117,9 +117,6 @@ defmodule SpandexEcto.EctoLogger do
       {_, trace} = List.keyfind(Process.info(caller_pid)[:dictionary], {:spandex_trace, tracer}, 0)
 
       case trace do
-        nil ->
-          tracer.start_span("query")
-
         %Trace{id: trace_id, stack: [%Span{id: span_id} | _]} ->
           tracer.continue_trace("query", %SpanContext{trace_id: trace_id, parent_id: span_id})
       end
