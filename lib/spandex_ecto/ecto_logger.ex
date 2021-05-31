@@ -122,9 +122,6 @@ defmodule SpandexEcto.EctoLogger do
 
         %Trace{id: trace_id, stack: [%Span{id: span_id} | _]} ->
           tracer.continue_trace("query", %SpanContext{trace_id: trace_id, parent_id: span_id})
-
-        %Trace{id: trace_id, stack: []} ->
-          tracer.continue_trace("query", %SpanContext{trace_id: trace_id})
       end
     end
 
