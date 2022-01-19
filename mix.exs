@@ -1,14 +1,12 @@
 defmodule SpandexEcto.MixProject do
   use Mix.Project
 
-  @version "0.6.2"
-
   def project do
     [
       app: :spandex_ecto,
       description: description(),
       docs: docs(),
-      version: @version,
+      version: version(),
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
@@ -28,12 +26,20 @@ defmodule SpandexEcto.MixProject do
     ]
   end
 
+  defp version do
+    case File.read("VERSION") do
+      {:ok, v} -> String.trim(v)
+      {:error, _} -> "0.0.0-development"
+    end
+  end
+
   defp package do
     [
       name: :spandex_ecto,
+      organization: "coingaming",
       maintainers: ["Zachary Daniel", "Greg Mefford"],
       licenses: ["MIT License"],
-      links: %{"GitHub" => "https://github.com/spandex-project/spandex_ecto"}
+      links: %{"GitHub" => "https://github.com/coingaming/spandex_ecto"}
     ]
   end
 
